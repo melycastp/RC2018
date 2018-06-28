@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+}
+
+@using (Html.BeginForm("Menu", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @style = "color: red" })
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="text-center">Menu</h2>
+            <h4 class="text-center">Elije la opción a Registrar</h4><br />
+            <div class="center-block">
+                <button onclick="LoginType('A')" class="btn btn-success center-block">Presidente Municipal</button><br />
+                <button onclick="LoginType('D')" class="btn btn-info center-block">Diputados Locales</button><br />
+                <button onclick="LoginType('F')" class="btn btn-default center-block">Diputados Federales</button><br />
+            </div>
+            
+        </div>
+    </div>
+    <input id="type" type="hidden" />
+}
+
+@section scripts{
+    <script type="text/javascript">
+        function LoginType(type) {
+            $("#type").val(type);
+            $(this).submit();
+        }
+    </script>
+}

@@ -1,0 +1,372 @@
+﻿@model Entities.RCasilla
+
+<h3>ACTUALIZAR REGISTRO DE <span class="text-info">@ViewBag.Tipo</span></h3>
+<br />
+
+@using (Html.BeginForm("Update", "Home", FormMethod.Post, new { @class = "form", @id = "RegisterForm" }))
+
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.idRegistroCasilla)
+    @Html.HiddenFor(model => model.tipoEleccion)
+    @Html.HiddenFor(model => model.idSeccion)
+    @Html.HiddenFor(model => model.idUsuario)
+    @Html.HiddenFor(model => model.fecha)
+    @Html.HiddenFor(model => model.Editable)
+
+    <div class="row">
+        <span class="text-danger" id="msgError"></span>
+        <div class="col-md-3 col-xs-6">
+            <div class="form-group">
+                <label for="seccion" class="control-label col-lg-5">Sección</label>
+                <div class="col-lg-4">
+                    @Html.DropDownList("seccion", null, new { @class = "form-control", style = "width: 100px;" })
+                    @Html.ValidationMessageFor(model => model.idSeccion, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-6">
+            <div class="form-group">
+                <label for="casilla" class="control-label col-lg-5">Casilla</label>
+                <div class="col-lg-4">
+                    @Html.DropDownList("casilla", null, new { @class = "form-control", style = "width: 100px;" })
+                    @Html.ValidationMessageFor(model => model.idSeccion, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PAN" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pan.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PAN, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PAN, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PRI" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pri.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PRI, new { htmlAttributes = new { @class = "form-control", max = "9999"} })
+                    @Html.ValidationMessageFor(model => model.PRI, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PVEM" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pvem.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PVEM, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PVEM, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="MC" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/mc.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.MC, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.MC, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PANAL" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pna.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PANAL, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PANAL, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="MORENA" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/morena.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.MORENA, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.MORENA, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="ENSOC" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pes.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.ENSOC, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.ENSOC, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PPG" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/ppg.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PPG, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PPG, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PIH" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pih.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PIH, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PIH, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PCG" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pcg.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PCG, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PCG, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PSM" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/psm.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PSM, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PSM, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="PSG" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/psg.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PSG, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.PSG, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="CANDIND" class="control-label col-lg-5"><img class="img-responsive" src="https://invobioscience.com/wp-content/uploads/2016/03/temp-pic.png" /></label>
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.CANDIND, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.ValidationMessageFor(model => model.CANDIND, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.VALIDOS, new { @class = "control-label" })
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.VALIDOS, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.VALIDOS, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.NULOS, new { @class = "control-label" })
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.NULOS, new { htmlAttributes = new { @class = "form-control", max = "9999"} })
+                    @Html.ValidationMessageFor(model => model.NULOS, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Total, new { @class = "control-label" })
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Total, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PCIUD, new { @class = "control-label" })
+                <div class="col-lg-5">
+                    @Html.EditorFor(model => model.PCIUD, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.PCIUD, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class=" col-md-offset-4 col-md-4">
+            <div class="form-group">
+                <label for="listaNominal" class="control-label">LISTA NOMINAL</label>
+                <div class="col-lg-5">
+                    <input class="form-control" readonly="readonly" type="number" id="listaNominal" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="form-group">
+            <div class="col-lg-10">
+                <button id="Actualizar" type="button" class="btn btn-info">Actualizar</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/select2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#seccion").select2({
+            disabled: true
+        });
+        $("#casilla").select2({
+            disabled: true
+        });
+        $("#PAN").focus();
+        $("#listaNominal").val('@Model.Seccione.listaNominal');
+    });
+
+    $("#Actualizar").click(function () {
+        $("#ActualizarModal").modal("show");
+    });
+
+    function Actualizar() {
+        $("#ActualizarModal").modal("hide");
+        $("#RegisterForm").submit();
+    }
+
+    $('#PAN').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PRI').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PVEM').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#MC').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PANAL').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#MORENA').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#ENSOC').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PPG').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PIH').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PCG').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PSM').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PSG').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#CANDIND').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#NULOS').blur(function () {
+
+            var total = 0;
+            var nulos = Number($("#NULOS").val());
+            total = nulos + Number($("#VALIDOS").val());
+            $("#Total").val(total);
+
+            CalcularPCIUD(total);
+        });
+
+        function SumarTodos() {
+            var sumatoria = 0;
+
+            sumatoria += Number($("#PAN").val());
+            sumatoria += Number($("#PRI").val());
+            sumatoria += Number($("#PVEM").val());
+            sumatoria += Number($("#MC").val());
+            sumatoria += Number($("#PANAL").val());
+            sumatoria += Number($("#MORENA").val());
+            sumatoria += Number($("#ENSOC").val());
+            sumatoria += Number($("#PPG").val());
+            sumatoria += Number($("#PIH").val());
+            sumatoria += Number($("#PCG").val());
+            sumatoria += Number($("#PSM").val());
+            sumatoria += Number($("#PSG").val());
+            sumatoria += Number($("#CANDIND").val());
+
+            return sumatoria;
+        }
+
+        function CalcularPCIUD(total) {
+            var idSeccion = $("#idSeccion").val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("CalculatePCIUD", "Home")',
+                dataType: 'json',
+                cache: false,
+                data: { total:total, idSeccion: idSeccion },
+                success: function (model) {
+                    $("#PCIUD").val(model.pciud.toFixed(2));
+                    $("#listaNominal").val(model.listaNominal);
+                },
+                error: function (ex) {
+                    alert('Error al conectarse al método: ' + ex);
+                }
+            });
+        }
+
+</script>

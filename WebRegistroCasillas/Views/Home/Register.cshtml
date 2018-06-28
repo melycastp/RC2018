@@ -1,0 +1,670 @@
+﻿@model Entities.RCasilla
+
+@{
+    ViewBag.Title = ViewBag.Tipo;
+}
+
+@using System.Security.Claims;
+@using System.Threading;
+
+@{
+    var Rol = "";
+
+    if (Request.IsAuthenticated)
+    {
+        ClaimsPrincipal Principal = Thread.CurrentPrincipal as ClaimsPrincipal;
+        if (Principal != null && Principal.Identity.IsAuthenticated)
+        {
+            var Claims = Principal.Claims.ToList();
+            Rol = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+        }
+    }
+
+
+}
+
+<div class="modal fade in" id="ActualizarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteLabel">Actualizar registro</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de actualizar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" onclick="Actualizar();">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade in" id="ConfirmarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteLabel">Guardar registro</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de guardar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" id="Guardar" onclick="Guardar();">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade in" id="DesbloquearModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteLabel">Desbloquear registro</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de desbloquear el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" id="Desbloq" onclick="Desbloquear();">Desbloquear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divForm">
+    <h3>REGISTRO DE <span class="text-info">@ViewBag.Tipo</span></h3>
+    <br />
+
+    @using (Html.BeginForm("Register", "Home", FormMethod.Post, new { @class = "form", @id = "RegisterForm" }))
+
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.idRegistroCasilla)
+        @Html.HiddenFor(model => model.tipoEleccion)
+        @Html.HiddenFor(model => model.idSeccion)
+        @Html.HiddenFor(model => model.idUsuario)
+        @Html.HiddenFor(model => model.fecha)
+        @Html.HiddenFor(model => model.Editable)
+
+        <div class="row">
+            <span class="text-danger" id="msgError"></span>
+            <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                    <label for="seccion" class="control-label col-lg-5">Sección</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownList("seccion", null,"", new { @class = "form-control", style = "width: 100px;" })
+                        @Html.ValidationMessageFor(model => model.idSeccion, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-6">
+                <div class="form-group">
+                    <label for="casilla" class="control-label col-lg-5">Casilla</label>
+                    <div class="col-lg-4">
+                        @Html.DropDownList("casilla", null, new { @class = "form-control", style = "width: 100px;" })
+                        @Html.ValidationMessageFor(model => model.idSeccion, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PAN" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pan.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PAN, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PAN, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PRI" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pri.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PRI, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PRI, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PVEM" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pvem.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PVEM, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PVEM, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="MC" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/mc.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.MC, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.MC, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PANAL" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pna.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PANAL, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PANAL, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="MORENA" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/morena.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.MORENA, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.MORENA, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="ENSOC" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pes.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.ENSOC, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.ENSOC, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PPG" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/ppg.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PPG, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PPG, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PIH" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pih.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PIH, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PIH, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PCG" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pcg.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PCG, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PCG, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PSM" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/psm.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PSM, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PSM, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="PSG" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/psg.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PSG, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PSG, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    <label for="CANDIND" class="control-label col-lg-5"><img class="img-responsive" src="https://invobioscience.com/wp-content/uploads/2016/03/temp-pic.png" /></label>
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.CANDIND, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.CANDIND, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.VALIDOS, new { @class = "control-label" })
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.VALIDOS, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.VALIDOS, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-6">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NULOS, new { @class = "control-label" })
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.NULOS, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.NULOS, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Total, new { @class = "control-label" })
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.Total, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PCIUD, new { @class = "control-label" })
+                    <div class="col-lg-5">
+                        @Html.EditorFor(model => model.PCIUD, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.PCIUD, null, new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class=" col-md-offset-4 col-md-4">
+                <div class="form-group">
+                    <label for="listaNominal" class="control-label">LISTA NOMINAL</label>
+                    <div class="col-lg-5">
+                        <input class="form-control" readonly="readonly" type="number" id="listaNominal" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="form-group">
+                <div class="col-lg-10">
+                    <button id="Registrar" type="button" class="btn btn-info">Registrar</button>
+                    @if (Rol == "A")
+                    {
+                        <button id="Desbloquear" type="button" class="btn btn-warning">Desbloquear</button>
+                    }
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+<link href="~/Content/select2.min.css" rel="stylesheet" />
+
+<style type="text/css">
+    label {
+        font-size: 15px;
+    }
+</style>
+
+@section scripts{
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#seccion").select2();
+            $("#casilla").select2();
+            $("#Desbloquear").hide();
+            $("#seccion").select2('open');
+            if ("@ViewBag.Message" != "null") {
+                alert('@ViewBag.Message');
+            }
+        });
+
+        $("#seccion").on("select2:select", function () {
+            var valor = $("#seccion").val();
+            GetCasillas(valor);
+            $("#casilla").select2("open");
+        });
+
+        $("#casilla").on("select2:select", function () {
+            var valor = $("#casilla").val();
+            $("#idSeccion").val(valor);
+            VerificarExistencia(valor);
+        });
+
+        $("#Registrar").click(function () {
+            $("#ConfirmarModal").modal("show");
+        });
+
+        function Guardar() {
+            $("#ConfirmarModal").modal("hide");
+            $("#RegisterForm").submit();
+        }
+
+        function GetCasillas(seccion) {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetCasillasList", "Home")',
+                dataType: 'json',
+                cache: false,
+                data: { seccion: seccion },
+                success: function (casillas) {
+                    $("#casilla").empty();
+                    if (Object.keys(casillas).length != 0) {
+                        $("#casilla").html('<option></option>');
+                        $.each(casillas, function (i, casilla) {
+                            $("#casilla").append('<option value="' + casilla.Value + '">' + casilla.Text + '</option>');
+                        });
+                    }
+                    else {
+                        alert('No hay casillas registradas');
+                    }
+                },
+                error: function (ex) {
+                    alert('Error al conectarse al método: ' + ex);
+                }
+            });
+        }
+
+        function VerificarExistencia(idSeccion) {
+            var tipo = $("#tipoEleccion").val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("IsRegister", "Home")',
+                dataType: 'json',
+                cache: false,
+                data: { idSeccion: idSeccion, tipo: tipo },
+                success: function (register) {
+                    if (register != null) {
+                        if ("@Rol" == "C") {
+                            if (register.Editable == true) {
+                                GetUpdate(register.idRegistroCasilla);
+                            } else {
+                                ColocarReadOnly();
+                                $("#PAN").val(register.PAN);
+                                $("#PRI").val(register.PRI);
+                                $("#PVEM").val(register.PVEM);
+                                $("#MC").val(register.MC);
+                                $("#PANAL").val(register.PANAL);
+                                $("#MORENA").val(register.MORENA);
+                                $("#ENSOC").val(register.ENSOC);
+                                $("#PPG").val(register.PPG);
+                                $("#PIH").val(register.PIH);
+                                $("#PCG").val(register.PCG);
+                                $("#PSM").val(register.PSM);
+                                $("#PSG").val(register.PSG);
+                                $("#CANDIND").val(register.CANDIND);
+                                $("#VALIDOS").val(register.VALIDOS);
+                                $("#NULOS").val(register.NULOS);
+                                $("#Total").val(register.Total);
+                                $("#PCIUD").val(register.PCIUD);
+                                $("#idRegistroCasilla").val(register.idRegistroCasilla);
+                                $("#listaNominal").val(register.Seccione.listaNominal);
+                            }
+                        }else {
+                            ColocarReadOnly();
+                            $("#PAN").val(register.PAN);
+                            $("#PRI").val(register.PRI);
+                            $("#PVEM").val(register.PVEM);
+                            $("#MC").val(register.MC);
+                            $("#PANAL").val(register.PANAL);
+                            $("#MORENA").val(register.MORENA);
+                            $("#ENSOC").val(register.ENSOC);
+                            $("#PPG").val(register.PPG);
+                            $("#PIH").val(register.PIH);
+                            $("#PCG").val(register.PCG);
+                            $("#PSM").val(register.PSM);
+                            $("#PSG").val(register.PSG);
+                            $("#CANDIND").val(register.CANDIND);
+                            $("#VALIDOS").val(register.VALIDOS);
+                            $("#NULOS").val(register.NULOS);
+                            $("#Total").val(register.Total);
+                            $("#PCIUD").val(register.PCIUD);
+                            $("#idRegistroCasilla").val(register.idRegistroCasilla);
+                            $("#listaNominal").val(register.Seccione.listaNominal);
+                            if ("@Rol" == "A") {
+                                $("#Desbloquear").show();
+                            }
+                        }
+                        
+
+                    }
+                },
+                error: function (ex) {
+                    QuitarReadOnly();
+                    Limpiar();
+                    $("#PAN").focus();
+                    console.log('Error al conectarse al método: ' + ex.statusText);
+                }
+            });
+        }
+
+        $("#Desbloquear").click(function () {
+            $("#DesbloquearModal").modal("show");
+        });
+
+        function Desbloquear() {
+            $("#DesbloquearModal").modal("hide");
+            var id = $("#idRegistroCasilla").val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("DesbloquearEditable", "Home")',
+                dataType: 'json',
+                cache: false,
+                data: { idRegistroCasilla: id },
+                success: function (result) {
+                    if (result) {
+                        alert('Desbloqueada para edición del capturista');
+                    }
+                },
+                error: function (ex) {
+
+                }
+            });
+        }
+
+        $("#Update").click(function () {
+            Update();
+        });
+
+        function QuitarReadOnly() {
+            $("#PAN").attr('readonly',false);
+            $("#PRI").attr('readonly', false);
+            $("#PVEM").attr('readonly', false);
+            $("#MC").attr('readonly',false);
+            $("#PANAL").attr('readonly',false);
+            $("#MORENA").attr('readonly',false);
+            $("#ENSOC").attr('readonly',false);
+            $("#PPG").attr('readonly',false);
+            $("#PIH").attr('readonly', false);
+            $("#PCG").attr('readonly', false);
+            $("#PSM").attr('readonly', false);
+            $("#PSG").attr('readonly', false);
+            $("#CANDIND").attr('readonly', false);
+            $("#NULOS").attr('readonly', false);
+        }
+
+        function Limpiar() {
+            $("#PAN").val('0');
+            $("#PRI").val('0');
+            $("#PVEM").val('0');
+            $("#MC").val('0');
+            $("#PANAL").val('0');
+            $("#MORENA").val('0');
+            $("#ENSOC").val('0');
+            $("#PPG").val('0');
+            $("#PIH").val('0');
+            $("#PCG").val('0');
+            $("#PSM").val('0');
+            $("#PSG").val('0');
+            $("#CANDIND").val('0');
+            $("#NULOS").val('0');
+            $("#VALIDOS").val('0');
+            $("#Total").val('0');
+            $("#PCIUD").val('0.0');
+        }
+
+        function ColocarReadOnly() {
+            $("#PAN").attr('readonly', true);
+            $("#PRI").attr('readonly', true);
+            $("#PVEM").attr('readonly', true);
+            $("#MC").attr('readonly', true);
+            $("#PANAL").attr('readonly', true);
+            $("#MORENA").attr('readonly', true);
+            $("#ENSOC").attr('readonly', true);
+            $("#PPG").attr('readonly', true);
+            $("#PIH").attr('readonly', true);
+            $("#PCG").attr('readonly', true);
+            $("#PSM").attr('readonly', true);
+            $("#PSG").attr('readonly', true);
+            $("#CANDIND").attr('readonly', true);
+            $("#NULOS").attr('readonly', true);
+
+        }
+
+        $('#PAN').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PRI').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PVEM').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#MC').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PANAL').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#MORENA').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#ENSOC').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PPG').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PIH').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PCG').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PSM').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#PSG').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#CANDIND').blur(function () {
+            var result = SumarTodos();
+            $("#VALIDOS").val(result);
+        });
+
+        $('#NULOS').blur(function () {
+
+            var total = 0;
+            var nulos = Number($("#NULOS").val());
+            total = nulos + Number($("#VALIDOS").val());
+            $("#Total").val(total);
+
+            CalcularPCIUD(total);
+        });
+
+        function SumarTodos() {
+            var sumatoria = 0;
+
+            sumatoria += Number($("#PAN").val());
+            sumatoria += Number($("#PRI").val());
+            sumatoria += Number($("#PVEM").val());
+            sumatoria += Number($("#MC").val());
+            sumatoria += Number($("#PANAL").val());
+            sumatoria += Number($("#MORENA").val());
+            sumatoria += Number($("#ENSOC").val());
+            sumatoria += Number($("#PPG").val());
+            sumatoria += Number($("#PIH").val());
+            sumatoria += Number($("#PCG").val());
+            sumatoria += Number($("#PSM").val());
+            sumatoria += Number($("#PSG").val());
+            sumatoria += Number($("#CANDIND").val());
+
+            return sumatoria;
+        }
+
+        function CalcularPCIUD(total) {
+            var idSeccion = $("#idSeccion").val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("CalculatePCIUD", "Home")',
+                dataType: 'json',
+                cache: false,
+                data: { total:total, idSeccion: idSeccion },
+                success: function (model) {
+                    $("#PCIUD").val(model.pciud.toFixed(2));
+                    $("#listaNominal").val(model.listaNominal);
+                },
+                error: function (ex) {
+                    alert('Error al conectarse al método: ' + ex);
+                }
+            });
+        }
+
+        function GetUpdate(idSeccion)
+        {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("Update", "Home")',
+                cache: false,
+                data: { idRCasilla: idSeccion },
+                success: function (data) {
+                    $('#divForm').empty();
+                    $('#divForm').html(data);
+                },
+                error: function (ex) {
+                    $("#divForm").empty();
+                    $("#divForm").add("<p class='text-danger'>Error al obtener el formulario.</p>");
+                }
+            });
+        }
+
+    </script>
+}

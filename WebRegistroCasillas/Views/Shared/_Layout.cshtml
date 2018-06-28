@@ -1,0 +1,80 @@
+﻿@using System.Security.Claims;
+@using System.Threading;
+
+@{
+    var Usuario = "";
+    var Rol = "";
+
+    if (Request.IsAuthenticated)
+    {
+        ClaimsPrincipal Principal = Thread.CurrentPrincipal as ClaimsPrincipal;
+        if (Principal != null && Principal.Identity.IsAuthenticated)
+        {
+            var Claims = Principal.Claims.ToList();
+            Usuario = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
+            Rol = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
+        }
+    }
+
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Registro de Casillas</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @if (Request.IsAuthenticated)
+                {
+                    <a class="navbar-brand" href="@Url.Action("Menu", "Home")">Registro de Casillas</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">Registro de Casillas</a>
+                }
+            </div>
+            <div class="navbar-collapse collapse">
+                @if (Request.IsAuthenticated)
+                {
+                    if (Rol == "A")
+                    {
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("Usuarios", "Users", "Home")</li>
+                        </ul>
+                    }
+                    <ul class="nav navbar-nav navbar-right">
+
+                        <li><a href="#">¡Bienvenido, @Usuario!</a></li>
+                        <li><a href="@Url.Action("LogOff", "Home")">Cerrar Sesión</a></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Registro de Casillas</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
