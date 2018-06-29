@@ -42,6 +42,7 @@
           <Property Name="PCIUD" Type="decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="Total" Type="int" Nullable="false" />
           <Property Name="Editable" Type="bit" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="2" Nullable="false" />
         </EntityType>
         <EntityType Name="Secciones">
           <Key>
@@ -216,6 +217,7 @@
           <Property Name="PCIUD" Type="Decimal" Nullable="false" Precision="18" Scale="4" />
           <Property Name="Total" Type="Int32" Nullable="false" />
           <Property Name="Editable" Type="Boolean" Nullable="false" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Seccione" Relationship="RCasillasDBModel.FK_RCasillas_Secciones" FromRole="RCasilla" ToRole="Seccione" />
           <NavigationProperty Name="Usuario" Relationship="RCasillasDBModel.FK_RCasillas_Usuarios" FromRole="RCasilla" ToRole="Usuario" />
         </EntityType>
@@ -243,7 +245,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -284,6 +286,7 @@
           <EntitySetMapping Name="RCasillas">
             <EntityTypeMapping TypeName="RCasillasDBModel.RCasilla">
               <MappingFragment StoreEntitySet="RCasillas">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="Editable" ColumnName="Editable" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="PCIUD" ColumnName="PCIUD" />

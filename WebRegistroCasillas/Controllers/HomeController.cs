@@ -111,6 +111,8 @@ namespace WebRegistroCasillas.Controllers
 
             if(ModelState.IsValid)
             {
+                Guid g = Guid.NewGuid();
+                rCasilla.idRegistroCasilla = g.ToString();
                 rCasilla.fecha = DateTime.Now;
                 rcBLL.Create(rCasilla);
                 return RedirectToAction("Register", new { id = rCasilla.tipoEleccion, message = "El registro se guardó exitosamente." });
@@ -150,8 +152,7 @@ namespace WebRegistroCasillas.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Menu(string type)
         {
-            string returnUrl = Url.Action("Register", "Home", new { id = type, message = "null" }, null);
-            return Redirect(returnUrl);
+            return RedirectToAction("Register", "Home", new { id = type, message = "null" });
         }
 
         [Authorize]

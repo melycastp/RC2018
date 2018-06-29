@@ -40,6 +40,7 @@ namespace Entities
         public decimal PCIUD { get; set; }
         public int Total { get; set; }
         public bool Editable { get; set; }
+        public string status { get; set; }
     
         public virtual Seccione Seccione { get; set; }
         public virtual Usuario Usuario { get; set; }

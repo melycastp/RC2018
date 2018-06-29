@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="RCasillasDBModel.Seccione" Width="1.5" PointX="6.875" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RCasillasDBModel.Usuario" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="RCasillasDBModel.FK_Secciones_Municipios" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="RCasillasDBModel.RCasilla" Width="1.5" PointX="3.75" PointY="0.5" />
+        <EntityTypeShape EntityType="RCasillasDBModel.RCasilla" Width="1.5" PointX="3.625" PointY="0.5" />
         <AssociationConnector Association="RCasillasDBModel.FK_RCasillas_Secciones" />
         <AssociationConnector Association="RCasillasDBModel.FK_RCasillas_Usuarios" />
         </Diagram>

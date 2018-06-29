@@ -126,6 +126,10 @@ namespace Entities
             [Required(ErrorMessage = "El dato editable es requerido")]
             [DisplayName("Es Editable")]
             public bool Editable { get; set; }
+
+            [Required(ErrorMessage = "El dato Estado es requerido")]
+            [DisplayName("Estado")]
+            public string status { get; set; }
         }
     }
 }

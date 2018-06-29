@@ -40,6 +40,23 @@
     </div>
 </div>
 
+<div class="modal fade in" id="EditarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteLabel">Actualizar registro</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de editar el registro?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-info" onclick="CargarUpdate();">Editar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade in" id="ConfirmarModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -51,7 +68,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-info" id="Guardar" onclick="Guardar();">Guardar</button>
+                <button type="button" class="btn btn-info" id="Confirmar" onclick="Guardar();">Guardar</button>
             </div>
         </div>
     </div>
@@ -300,6 +317,7 @@
             <div class="form-group">
                 <div class="col-lg-10">
                     <button id="Registrar" type="button" class="btn btn-info">Registrar</button>
+                    <button id="Editar" type="button" class="btn btn-info">Editar</button>
                     @if (Rol == "A")
                     {
                         <button id="Desbloquear" type="button" class="btn btn-warning">Desbloquear</button>
@@ -327,9 +345,10 @@
             $("#seccion").select2();
             $("#casilla").select2();
             $("#Desbloquear").hide();
+            $("#Editar").hide();
             $("#seccion").select2('open');
             if ("@ViewBag.Message" != "null") {
-                alert('@ViewBag.Message');
+                alert('@Html.Raw(ViewBag.Message)');
             }
         });
 
@@ -347,6 +366,7 @@
 
         $("#Registrar").click(function () {
             $("#ConfirmarModal").modal("show");
+            $("#Confirmar").focus();
         });
 
         function Guardar() {
@@ -377,6 +397,12 @@
                     alert('Error al conectarse al método: ' + ex);
                 }
             });
+        }
+
+        function CargarUpdate() {
+            var registro = $("#idRegistroCasilla").val();
+            $("#EditarModal").modal("hide");
+            GetUpdate(registro);
         }
 
         function VerificarExistencia(idSeccion) {
@@ -413,6 +439,7 @@
                                 $("#PCIUD").val(register.PCIUD);
                                 $("#idRegistroCasilla").val(register.idRegistroCasilla);
                                 $("#listaNominal").val(register.Seccione.listaNominal);
+                                $("#Registrar").hide();
                             }
                         }else {
                             ColocarReadOnly();
@@ -435,8 +462,10 @@
                             $("#PCIUD").val(register.PCIUD);
                             $("#idRegistroCasilla").val(register.idRegistroCasilla);
                             $("#listaNominal").val(register.Seccione.listaNominal);
+                            $("#Registrar").hide();
                             if ("@Rol" == "A") {
                                 $("#Desbloquear").show();
+                                $("#Editar").show();
                             }
                         }
                         
@@ -447,13 +476,24 @@
                     QuitarReadOnly();
                     Limpiar();
                     $("#PAN").focus();
+                    $("#Editar").hide();
+                    $("#Desbloquear").hide();
+                    $("#Registrar").show();
                     console.log('Error al conectarse al método: ' + ex.statusText);
                 }
             });
         }
 
+        $("#PAN").focus(function () {
+            $(this).select();
+        });
+
         $("#Desbloquear").click(function () {
             $("#DesbloquearModal").modal("show");
+        });
+
+        $("#Editar").click(function () {
+            $("#EditarModal").modal("show");
         });
 
         function Desbloquear() {
