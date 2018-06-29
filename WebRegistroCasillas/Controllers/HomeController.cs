@@ -41,10 +41,10 @@ namespace WebRegistroCasillas.Controllers
         {
             ActionResult Result;
 
-            if(login.Username != null && login.Password != null)
+            if(login.UsernameLogin != null && login.PasswordLogin != null)
             {
                 var uBLL = new UsuarioBLL();
-                var User = uBLL.Authentication(login.Username, login.Password);
+                var User = uBLL.Authentication(login.UsernameLogin, login.PasswordLogin);
 
                 if (User != null)
                 {
@@ -249,15 +249,6 @@ namespace WebRegistroCasillas.Controllers
 
                 return View();
             }
-        }
-
-        [Authorize]
-        public ActionResult Users()
-        {
-            var uBLL = new UsuarioBLL();
-            var users = uBLL.RetrieveAll();
-
-            return View(users);
         }
 
         public JsonResult GetCasillasList(int seccion)

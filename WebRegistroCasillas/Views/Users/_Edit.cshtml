@@ -1,0 +1,76 @@
+﻿@model Entities.Usuario
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("_Edit", "Users", null,
+                new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnSuccess = "cerrarModal",
+                    OnFailure = "error",
+                    AllowCache = false,
+                }, new { role = "form", id = "FormUsuario" }))
+
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.idUsuario)
+    @Html.HiddenFor(model => model.fechaCreacion)
+
+    <div class="modal-header">
+        Actualizar Usuario
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.username, new { @class = "control-label" })
+                @Html.EditorFor(model => model.username, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.username)
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.password, new { @class = "control-label" })
+                @Html.PasswordFor(model => model.password, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.password)
+            </div>
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.nombreCompleto, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.nombreCompleto, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.nombreCompleto)
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.tipo, new { @class = "control-label" })
+                    @Html.DropDownList("tipo", null, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.tipo)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
+                <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript">
+        $("#username").focus();
+        $("#FormUsuario").keypress(function (e) {
+            if (e.which == 13) {
+                return false;
+            }
+        });
+    </script>
+}

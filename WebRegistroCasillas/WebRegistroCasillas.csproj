@@ -180,11 +180,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\PCIUDModel.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -230,8 +232,13 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Menu.cshtml" />
-    <Content Include="Views\Home\Users.cshtml" />
     <Content Include="Views\Home\_Update.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\_Users.js.cshtml" />
+    <Content Include="Views\Users\_Create.cshtml" />
+    <Content Include="Views\Users\_Edit.cshtml" />
+    <Content Include="Views\Users\_UsuarioDelete.ModalPreview.cshtml" />
+    <Content Include="Views\Users\_Usuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

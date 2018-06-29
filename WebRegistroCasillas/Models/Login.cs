@@ -10,13 +10,12 @@ namespace WebRegistroCasillas.Models
     {
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "El Nombre de Usuario es requerido")]
-        [DataType(DataType.EmailAddress)]
-        public string Username { get; set; }
+        public string UsernameLogin { get; set; }
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "La Contraseña es requerida")]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string PasswordLogin { get; set; }
 
         [Display(Name = "Tipo")]
         public string Type { get; set; }

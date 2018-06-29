@@ -17,18 +17,18 @@
                 <legend>Iniciar Sesión</legend>
 
                 <div class="form-group center-block">
-                    @Html.LabelFor(model => model.Username, new { @class = "col-lg-2 control-label" })
+                    @Html.LabelFor(model => model.UsernameLogin, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", @placeholder = "Usuario" })
-                        @Html.ValidationMessageFor(model => model.Username, null, new { @class = "text-danger" })
+                        @Html.TextBoxFor(model => model.UsernameLogin, new { @class = "form-control", @placeholder = "Usuario" })
+                        @Html.ValidationMessageFor(model => model.UsernameLogin, null, new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group center-block">
-                    @Html.LabelFor(model => model.Password, new { @class = "col-lg-2 control-label" })
+                    @Html.LabelFor(model => model.PasswordLogin, new { @class = "col-lg-2 control-label" })
                     <div class="col-lg-10">
-                        @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Contraseña" })
-                        @Html.ValidationMessageFor(model => model.Password,null, new { @class = "text-danger"})
+                        @Html.PasswordFor(model => model.PasswordLogin, new { @class = "form-control", @placeholder = "Contraseña" })
+                        @Html.ValidationMessageFor(model => model.PasswordLogin,null, new { @class = "text-danger"})
                     </div>
                 </div>
                 @if (ViewBag.Error != null)

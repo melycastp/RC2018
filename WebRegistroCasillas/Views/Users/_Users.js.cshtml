@@ -1,0 +1,92 @@
+﻿<script type="text/javascript">
+    var deleteUrl = '@Url.Action("Delete")';
+    var confirmUrl = '@Url.Action("ObtenerUsuario")';
+    var previewContainer = $('#deleteConfirmModal #Preview');
+    var currentId;
+
+    function confirmDelete(id) {
+        currentId = id;
+        previewContainer.html('<p>Cargando contenido...</p>');
+        previewContainer.load(confirmUrl, { id: currentId });
+        $('#deleteConfirmModal').modal('show');
+    }
+
+    $(function () {
+        $("#deleteConfirmModal").on('click', "#deleteConfirm", function () {
+            eliminar(currentId);
+        });
+    });
+
+    function cerrarModal(data) {
+        $('#modal-usuario').modal('hide');
+        if (data.respuesta == true) {
+            cargarUsuarios();
+        }
+        else {
+            alert('Error al crear: ' + data.mensaje);
+        }
+        limpiarControles();
+    }
+
+    function eliminar(id) {
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: "@Url.Action("Delete", "Users")",
+            traditional: true,
+        dataType: "json",
+        cache: false,
+        data: { id: id },
+        success: function (data) {
+            if (data.respuesta == true)
+            {
+                $('#deleteConfirmModal').modal('hide');
+                cargarUsuarios();
+            }
+            else
+            {
+                alert('Error: ' + data.mensaje);
+            }
+        },
+        error: function (ex) {
+            alert('Error: ' + data.mensaje);
+        }
+    });
+    }
+
+    function limpiarControles() {
+        $('#usename').val('');
+        $('#password').val('');
+        $('#nombreCompleto').val('');
+        $('#tipo').val('');
+    }
+
+    function CreateUsuario() {
+        $('#modal-usuario #PreviewUsuario').load('@Url.Action("Create", "Users")');
+        $('#modal-usuario').modal('show');
+    }
+
+    function EditUsuario(id) {
+        currentId = id;
+        $('#modal-usuario #PreviewUsuario').load('@Url.Action("Edit", "Users")', { id: currentId });
+        $('#modal-usuario').modal('show');
+    }
+
+    function cargarUsuarios()
+    {
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: "@Url.Action("ObtenerUsuarios","Users")",
+            traditional: true,
+        cache: false,
+        success: function (data) {
+            $('#Lista').empty();
+            $('#Lista').html(data);
+        },
+        error: function (ex) {
+            $('#Lista').empty();
+        }
+    });
+    }
+</script>
