@@ -2,6 +2,7 @@
 using Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace WebRegistroCasillas.Controllers
     public class HomeController : Controller
     {
         private string idUsuario = "";
+        private string Rol = "";
 
         public HomeController()
         {
@@ -24,6 +26,7 @@ namespace WebRegistroCasillas.Controllers
             {
                 var Claims = Principal.Claims.ToList();
                 idUsuario = Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                Rol = Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role).Value;
             }
         }
 
@@ -106,6 +109,24 @@ namespace WebRegistroCasillas.Controllers
 
             ViewBag.Tipo = tipo;
 
+            var oRR = new EstadoCasillaRepository();
+            List<EstadoCasilla> estados = new List<EstadoCasilla>();
+
+            if (Rol != null)
+            {
+                if(Rol == "A")
+                {
+                    estados = oRR.RetrieveAllEstadosCasilla();
+                }
+
+                if(Rol == "C")
+                {
+                    estados = oRR.RetrieveAllEstadosCasillaCapturista();
+                }
+            }
+
+            ViewBag.status = new SelectList(estados, "idEstado", "descripcion", "A");
+
             return View(casilla);
         }
 
@@ -140,9 +161,33 @@ namespace WebRegistroCasillas.Controllers
                     if (rCasilla.tipoEleccion == "F")
                     tipo = "DIPUTADOS FEDERALES";
                 else
+                    if (rCasilla.tipoEleccion == "S")
+                    tipo = "SENADORES";
+                else
+                            if (rCasilla.tipoEleccion == "P")
+                    tipo = "PRESIDENTES";
+                else
                     return View("Index");
 
                 ViewBag.Tipo = tipo;
+
+                var oRR = new EstadoCasillaRepository();
+                List<EstadoCasilla> estados = new List<EstadoCasilla>();
+
+                if (Rol != null)
+                {
+                    if (Rol == "A")
+                    {
+                        estados = oRR.RetrieveAllEstadosCasilla();
+                    }
+
+                    if (Rol == "C")
+                    {
+                        estados = oRR.RetrieveAllEstadosCasillaCapturista();
+                    }
+                }
+
+                ViewBag.status = new SelectList(estados, "idEstado", "descripcion", "A");
 
                 return View();
             }
@@ -187,7 +232,31 @@ namespace WebRegistroCasillas.Controllers
                     if (id == "F")
                 tipo = "DIPUTADOS FEDERALES";
             else
+                if (id == "S")
+                tipo = "SENADORES";
+            else
+                            if (id == "P")
+                tipo = "PRESIDENTES";
+            else
                 return View("Index");
+
+            var oRR = new EstadoCasillaRepository();
+            List<EstadoCasilla> estados = new List<EstadoCasilla>();
+
+            if (Rol != null)
+            {
+                if (Rol == "A")
+                {
+                    estados = oRR.RetrieveAllEstadosCasilla();
+                }
+
+                if (Rol == "C")
+                {
+                    estados = oRR.RetrieveAllEstadosCasillaCapturista();
+                }
+            }
+
+            ViewBag.status = new SelectList(estados, "idEstado", "descripcion",casilla.status);
 
             ViewBag.Tipo = tipo;
 
@@ -225,9 +294,34 @@ namespace WebRegistroCasillas.Controllers
                             if (id == "F")
                         tipo = "DIPUTADOS FEDERALES";
                     else
+                        if (id == "S")
+                        tipo = "SENADORES";
+                    else
+                            if (id == "P")
+                        tipo = "PRESIDENTES";
+                    else
                         return View("Index");
 
                     ViewBag.Tipo = tipo;
+
+                    var oRR = new EstadoCasillaRepository();
+                    List<EstadoCasilla> estados = new List<EstadoCasilla>();
+
+                    if (Rol != null)
+                    {
+                        if (Rol == "A")
+                        {
+                            estados = oRR.RetrieveAllEstadosCasilla();
+                        }
+
+                        if (Rol == "C")
+                        {
+                            estados = oRR.RetrieveAllEstadosCasillaCapturista();
+                        }
+                    }
+
+                    ViewBag.status = new SelectList(estados, "idEstado", "descripcion", casilla.status);
+
                     return View();
                 }
             }
@@ -250,9 +344,33 @@ namespace WebRegistroCasillas.Controllers
                         if (id == "F")
                     tipo = "DIPUTADOS FEDERALES";
                 else
+                    if (id == "S")
+                    tipo = "SENADORES";
+                else
+                            if (id == "P")
+                    tipo = "PRESIDENTES";
+                else
                     return View("Index");
 
                 ViewBag.Tipo = tipo;
+
+                var oRR = new EstadoCasillaRepository();
+                List<EstadoCasilla> estados = new List<EstadoCasilla>();
+
+                if (Rol != null)
+                {
+                    if (Rol == "A")
+                    {
+                        estados = oRR.RetrieveAllEstadosCasilla();
+                    }
+
+                    if (Rol == "C")
+                    {
+                        estados = oRR.RetrieveAllEstadosCasillaCapturista();
+                    }
+                }
+
+                ViewBag.status = new SelectList(estados, "idEstado", "descripcion", casilla.status);
 
                 return View();
             }

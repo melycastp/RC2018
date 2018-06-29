@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label for="PRI" class="control-label col-lg-5"><img class="img-responsive" src="http://iepcgro.mx/proceso2018/asset/images/team/pri.png" /></label>
                 <div class="col-lg-5">
-                    @Html.EditorFor(model => model.PRI, new { htmlAttributes = new { @class = "form-control", max = "9999"} })
+                    @Html.EditorFor(model => model.PRI, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
                     @Html.ValidationMessageFor(model => model.PRI, null, new { @class = "text-danger" })
                 </div>
             </div>
@@ -162,60 +162,70 @@
             <div class="form-group">
                 <label for="CANDIND" class="control-label col-lg-5"><img class="img-responsive" src="https://invobioscience.com/wp-content/uploads/2016/03/temp-pic.png" /></label>
                 <div class="col-lg-5">
-                    @Html.EditorFor(model => model.CANDIND, new { htmlAttributes = new { @class = "form-control", max = "9999" } })
+                    @Html.EditorFor(model => model.CANDIND, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.CANDIND, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-4 col-xs-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.VALIDOS, new { @class = "control-label" })
+                @Html.LabelFor(model => model.VALIDOS, new { @class = "control-label col-lg-5" })
                 <div class="col-lg-5">
                     @Html.EditorFor(model => model.VALIDOS, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.VALIDOS, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
+    </div>
+    <br />
+    <div class="row">
         <div class="col-md-4 col-xs-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.NULOS, new { @class = "control-label" })
+                @Html.LabelFor(model => model.NULOS, new { @class = "control-label col-lg-5" })
                 <div class="col-lg-5">
-                    @Html.EditorFor(model => model.NULOS, new { htmlAttributes = new { @class = "form-control", max = "9999"} })
+                    @Html.EditorFor(model => model.NULOS, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.NULOS, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-    </div>
-    <br />
-    <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.Total, new { @class = "control-label" })
+                @Html.LabelFor(model => model.Total, new { @class = "control-label col-lg-5" })
                 <div class="col-lg-5">
                     @Html.EditorFor(model => model.Total, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.Total, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-4 col-xs-6">
             <div class="form-group">
-                @Html.LabelFor(model => model.PCIUD, new { @class = "control-label" })
+                @Html.LabelFor(model => model.PCIUD, new { @class = "control-label col-lg-5" })
                 <div class="col-lg-5">
                     @Html.EditorFor(model => model.PCIUD, new { htmlAttributes = new { @class = "form-control", max = "9999", @readonly = "readonly" } })
                     @Html.ValidationMessageFor(model => model.PCIUD, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
+        <div class="col-md-4 col-xs-6">
+            <div class="form-group">
+                <label for="listaNominal" class="control-label col-lg-5">LISTA NOMINAL</label>
+                <div class="col-lg-5">
+                    <input class="form-control" readonly="readonly" type="number" id="listaNominal" />
+                </div>
+            </div>
+        </div>
     </div>
     <br />
     <div class="row">
-        <div class=" col-md-offset-4 col-md-4">
+        <div class="col-md-4">
             <div class="form-group">
-                <label for="listaNominal" class="control-label">LISTA NOMINAL</label>
-                <div class="col-lg-5">
-                    <input class="form-control" readonly="readonly" type="number" id="listaNominal" />
+                @Html.LabelFor(model => model.status, new { @class = "control-label col-lg-5" })
+                <div class="col-lg-7">
+                    @Html.DropDownList("status", null, "", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.status, null, new { @class = "text-danger" })
                 </div>
             </div>
         </div>
@@ -243,8 +253,13 @@
         $("#casilla").select2({
             disabled: true
         });
+        $("#status").select();
         $("#PAN").focus();
         $("#listaNominal").val('@Model.Seccione.listaNominal');
+    });
+
+    $("#PAN").focus(function () {
+        $(this).select();
     });
 
     $("#Actualizar").click(function () {
