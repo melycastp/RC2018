@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebRegistroCasillas", "WebRegistroCasillas\WebRegistroCasillas.csproj", "{70D0BA46-6EA2-4263-9F5A-FE60D86D0C88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{AD9AB6DD-2E23-4553-B82C-59D76E383F0B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{70D0BA46-6EA2-4263-9F5A-FE60D86D0C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70D0BA46-6EA2-4263-9F5A-FE60D86D0C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70D0BA46-6EA2-4263-9F5A-FE60D86D0C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD9AB6DD-2E23-4553-B82C-59D76E383F0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD9AB6DD-2E23-4553-B82C-59D76E383F0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD9AB6DD-2E23-4553-B82C-59D76E383F0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD9AB6DD-2E23-4553-B82C-59D76E383F0B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

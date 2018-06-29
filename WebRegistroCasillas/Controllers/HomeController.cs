@@ -96,7 +96,13 @@ namespace WebRegistroCasillas.Controllers
                     if (id == "F")
                         tipo = "DIPUTADOS FEDERALES";
                     else
-                        return View("Index");
+                        if (id == "S")
+                            tipo = "SENADORES";
+                        else
+                            if (id == "P")
+                                tipo = "PRESIDENTES";
+                            else
+                                return View("Index");
 
             ViewBag.Tipo = tipo;
 

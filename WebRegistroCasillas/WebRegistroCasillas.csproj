@@ -265,6 +265,10 @@
       <Project>{99608b99-8adc-4199-bae2-34580b82a947}</Project>
       <Name>Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{ad9ab6dd-2e23-4553-b82c-59d76e383f0b}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
