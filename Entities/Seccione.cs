@@ -23,7 +23,8 @@ namespace Entities
         public string idSeccion { get; set; }
         public int seccion { get; set; }
         public string casilla { get; set; }
-        public int distrito { get; set; }
+        public int distritoLocal { get; set; }
+        public int distritoFederal { get; set; }
         public int idMunicipio { get; set; }
         public int listaNominal { get; set; }
     

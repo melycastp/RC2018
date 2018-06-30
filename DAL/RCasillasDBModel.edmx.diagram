@@ -6,12 +6,12 @@
     <edmx:Diagrams>
       <Diagram DiagramId="a173b82ef3924a008493220e6a737afa" Name="Diagram1">
         <EntityTypeShape EntityType="RCasillasDBModel.Municipio" Width="1.5" PointX="6.875" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="RCasillasDBModel.Seccione" Width="1.5" PointX="6.875" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RCasillasDBModel.Usuario" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
-        <AssociationConnector Association="RCasillasDBModel.FK_Secciones_Municipios" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RCasillasDBModel.Usuario" PointX="0.75" PointY="1" Width="1.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RCasillasDBModel.RCasilla" Width="1.5" PointX="3.625" PointY="0.5" />
-        <AssociationConnector Association="RCasillasDBModel.FK_RCasillas_Secciones" />
         <AssociationConnector Association="RCasillasDBModel.FK_RCasillas_Usuarios" />
+        <EntityTypeShape EntityType="RCasillasDBModel.Seccione" Width="1.5" PointX="6.875" PointY="0.5" />
+        <AssociationConnector Association="RCasillasDBModel.FK_Secciones_Municipios" />
+        <AssociationConnector Association="RCasillasDBModel.FK_RCasillas_Secciones" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

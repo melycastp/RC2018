@@ -42,7 +42,7 @@ namespace Entities
         public bool Editable { get; set; }
         public string status { get; set; }
     
-        public virtual Seccione Seccione { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Seccione Seccione { get; set; }
     }
 }

@@ -50,8 +50,9 @@
           </Key>
           <Property Name="idSeccion" Type="varchar" MaxLength="70" Nullable="false" />
           <Property Name="seccion" Type="int" Nullable="false" />
-          <Property Name="casilla" Type="varchar" MaxLength="2" Nullable="false" />
-          <Property Name="distrito" Type="int" Nullable="false" />
+          <Property Name="casilla" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="distritoLocal" Type="int" Nullable="false" />
+          <Property Name="distritoFederal" Type="int" Nullable="false" />
           <Property Name="idMunicipio" Type="int" Nullable="false" />
           <Property Name="listaNominal" Type="int" Nullable="false" />
         </EntityType>
@@ -130,60 +131,35 @@
           </Key>
           <Property Name="idMunicipio" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Secciones" Relationship="Self.FK_Secciones_Municipios" FromRole="Municipios" ToRole="Secciones" />
-        </EntityType>
-        <EntityType Name="Seccione">
-          <Key>
-            <PropertyRef Name="idSeccion" />
-          </Key>
-          <Property Name="idSeccion" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="seccion" Type="Int32" Nullable="false" />
-          <Property Name="casilla" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="distrito" Type="Int32" Nullable="false" />
-          <Property Name="idMunicipio" Type="Int32" Nullable="false" />
-          <Property Name="listaNominal" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Municipio" Relationship="Self.FK_Secciones_Municipios" FromRole="Secciones" ToRole="Municipios" />
-          <NavigationProperty Name="RCasillas" Relationship="RCasillasDBModel.FK_RCasillas_Secciones" FromRole="Seccione" ToRole="RCasilla" />
+          <NavigationProperty Name="Secciones" Relationship="RCasillasDBModel.FK_Secciones_Municipios" FromRole="Municipio" ToRole="Seccione" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="idUsuario" />
           </Key>
-          <Property Name="idUsuario" Type="String" MaxLength="70" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombreCompleto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="tipo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="fechaCreacion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idUsuario" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="username" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="password" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="nombreCompleto" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="tipo" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" Type="String" />
+          <Property Name="fechaCreacion" Nullable="false" Precision="0" Type="DateTime" />
           <NavigationProperty Name="RCasillas" Relationship="RCasillasDBModel.FK_RCasillas_Usuarios" FromRole="Usuario" ToRole="RCasilla" />
         </EntityType>
-        <Association Name="FK_Secciones_Municipios">
-          <End Role="Municipios" Type="Self.Municipio" Multiplicity="1" />
-          <End Role="Secciones" Type="Self.Seccione" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Municipios">
-              <PropertyRef Name="idMunicipio" />
-            </Principal>
-            <Dependent Role="Secciones">
-              <PropertyRef Name="idMunicipio" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="RCasillasDBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Municipios" EntityType="Self.Municipio" />
-          <EntitySet Name="Secciones" EntityType="Self.Seccione" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
-          <AssociationSet Name="FK_Secciones_Municipios" Association="Self.FK_Secciones_Municipios">
-            <End Role="Municipios" EntitySet="Municipios" />
-            <End Role="Secciones" EntitySet="Secciones" />
-          </AssociationSet>
           <EntitySet Name="RCasillas" EntityType="RCasillasDBModel.RCasilla" />
+          <AssociationSet Name="FK_RCasillas_Usuarios" Association="RCasillasDBModel.FK_RCasillas_Usuarios">
+            <End EntitySet="Usuarios" Role="Usuario" />
+            <End EntitySet="RCasillas" Role="RCasilla" />
+          </AssociationSet>
+          <EntitySet Name="Secciones" EntityType="RCasillasDBModel.Seccione" />
+          <AssociationSet Name="FK_Secciones_Municipios" Association="RCasillasDBModel.FK_Secciones_Municipios">
+            <End Role="Municipio" EntitySet="Municipios" />
+            <End Role="Seccione" EntitySet="Secciones" />
+          </AssociationSet>
           <AssociationSet Name="FK_RCasillas_Secciones" Association="RCasillasDBModel.FK_RCasillas_Secciones">
             <End Role="Seccione" EntitySet="Secciones" />
-            <End Role="RCasilla" EntitySet="RCasillas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RCasillas_Usuarios" Association="RCasillasDBModel.FK_RCasillas_Usuarios">
-            <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="RCasilla" EntitySet="RCasillas" />
           </AssociationSet>
           </EntityContainer>
@@ -218,9 +194,47 @@
           <Property Name="Total" Type="Int32" Nullable="false" />
           <Property Name="Editable" Type="Boolean" Nullable="false" />
           <Property Name="status" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Seccione" Relationship="RCasillasDBModel.FK_RCasillas_Secciones" FromRole="RCasilla" ToRole="Seccione" />
           <NavigationProperty Name="Usuario" Relationship="RCasillasDBModel.FK_RCasillas_Usuarios" FromRole="RCasilla" ToRole="Usuario" />
+          <NavigationProperty Name="Seccione" Relationship="RCasillasDBModel.FK_RCasillas_Secciones" FromRole="RCasilla" ToRole="Seccione" />
         </EntityType>
+        <Association Name="FK_RCasillas_Usuarios">
+          <End Type="RCasillasDBModel.Usuario" Multiplicity="1" Role="Usuario" />
+          <End Type="RCasillasDBModel.RCasilla" Multiplicity="*" Role="RCasilla" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="RCasilla">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Seccione">
+          <Key>
+            <PropertyRef Name="idSeccion" />
+          </Key>
+          <Property Name="idSeccion" Type="String" Nullable="false" MaxLength="70" FixedLength="false" Unicode="false" />
+          <Property Name="seccion" Type="Int32" Nullable="false" />
+          <Property Name="casilla" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="distritoLocal" Type="Int32" Nullable="false" />
+          <Property Name="distritoFederal" Type="Int32" Nullable="false" />
+          <Property Name="idMunicipio" Type="Int32" Nullable="false" />
+          <Property Name="listaNominal" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Municipio" Relationship="RCasillasDBModel.FK_Secciones_Municipios" FromRole="Seccione" ToRole="Municipio" />
+          <NavigationProperty Name="RCasillas" Relationship="RCasillasDBModel.FK_RCasillas_Secciones" FromRole="Seccione" ToRole="RCasilla" />
+        </EntityType>
+        <Association Name="FK_Secciones_Municipios">
+          <End Type="RCasillasDBModel.Municipio" Role="Municipio" Multiplicity="1" />
+          <End Type="RCasillasDBModel.Seccione" Role="Seccione" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="idMunicipio" />
+            </Principal>
+            <Dependent Role="Seccione">
+              <PropertyRef Name="idMunicipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_RCasillas_Secciones">
           <End Type="RCasillasDBModel.Seccione" Role="Seccione" Multiplicity="1" />
           <End Type="RCasillasDBModel.RCasilla" Role="RCasilla" Multiplicity="*" />
@@ -230,18 +244,6 @@
             </Principal>
             <Dependent Role="RCasilla">
               <PropertyRef Name="idSeccion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RCasillas_Usuarios">
-          <End Type="RCasillasDBModel.Usuario" Role="Usuario" Multiplicity="1" />
-          <End Type="RCasillasDBModel.RCasilla" Role="RCasilla" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="idUsuario" />
-            </Principal>
-            <Dependent Role="RCasilla">
-              <PropertyRef Name="idUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -256,18 +258,6 @@
               <MappingFragment StoreEntitySet="Municipios">
                 <ScalarProperty Name="idMunicipio" ColumnName="idMunicipio" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Secciones">
-            <EntityTypeMapping TypeName="RCasillasDBModel.Seccione">
-              <MappingFragment StoreEntitySet="Secciones">
-                <ScalarProperty Name="idSeccion" ColumnName="idSeccion" />
-                <ScalarProperty Name="seccion" ColumnName="seccion" />
-                <ScalarProperty Name="casilla" ColumnName="casilla" />
-                <ScalarProperty Name="distrito" ColumnName="distrito" />
-                <ScalarProperty Name="idMunicipio" ColumnName="idMunicipio" />
-                <ScalarProperty Name="listaNominal" ColumnName="listaNominal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -313,6 +303,19 @@
                 <ScalarProperty Name="idSeccion" ColumnName="idSeccion" />
                 <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
                 <ScalarProperty Name="idRegistroCasilla" ColumnName="idRegistroCasilla" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Secciones">
+            <EntityTypeMapping TypeName="RCasillasDBModel.Seccione">
+              <MappingFragment StoreEntitySet="Secciones">
+                <ScalarProperty Name="listaNominal" ColumnName="listaNominal" />
+                <ScalarProperty Name="idMunicipio" ColumnName="idMunicipio" />
+                <ScalarProperty Name="distritoFederal" ColumnName="distritoFederal" />
+                <ScalarProperty Name="distritoLocal" ColumnName="distritoLocal" />
+                <ScalarProperty Name="casilla" ColumnName="casilla" />
+                <ScalarProperty Name="seccion" ColumnName="seccion" />
+                <ScalarProperty Name="idSeccion" ColumnName="idSeccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

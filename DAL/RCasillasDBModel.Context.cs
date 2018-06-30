@@ -26,8 +26,8 @@ namespace Entities
         }
     
         public virtual DbSet<Municipio> Municipios { get; set; }
-        public virtual DbSet<Seccione> Secciones { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<RCasilla> RCasillas { get; set; }
+        public virtual DbSet<Seccione> Secciones { get; set; }
     }
 }
